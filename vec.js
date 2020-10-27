@@ -28,7 +28,7 @@ class Vec extends Array{
 
     cross(other){
         //returns cross product of this and other vec
-        return this.mag() * other.mag() * Math.sin(this.angle(other));
+        return this[0]*other[1] - this[1]*other[0];
     }
     
     scale(scalar){
