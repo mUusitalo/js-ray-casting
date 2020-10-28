@@ -1,9 +1,9 @@
 const canvas_id = "myCanvas";
 const fps = 144;
-const nRays = 1000;
+const nRays = 3000;
 const nWalls = 10;
 const wallMaxLen = 800;
-const canvas_size = [1000, 1000];
+const canvas_size = [1920, 1080];
 var mspf = 1000 / fps;
 
 
@@ -13,7 +13,7 @@ var cd = new CanvasDrawer(document.getElementById(canvas_id));
 
 class World{
     constructor(numOfRays = nRays, numOfWalls = nWalls, wallLen = wallMaxLen){
-        this.lamp = new Lamp(numOfRays);
+        this.lamp = new Lamp(numOfRays, undefined, 0.2);
         this.nWalls = numOfWalls;
         this.wallMaxLen = wallLen;
         this.walls = [];
@@ -21,10 +21,10 @@ class World{
     }
 
     spawnEdgeWalls(){
-        let topRight = new Vec(cd.width, 0);
+        let topRight = new Vec(cd.canvas.width, 0);
         let topLeft = new Vec(0, 0);
-        let bottomLeft = new Vec(0, cd.height);
-        let bottomRight = new Vec(cd.width, cd.height);
+        let bottomLeft = new Vec(0, cd.canvas.height);
+        let bottomRight = new Vec(cd.canvas.width, cd.canvas.height);
         let top = new Wall(topRight, topLeft);
         let left = new Wall(topLeft, bottomLeft);
         let bottom = new Wall(bottomLeft, bottomRight);
