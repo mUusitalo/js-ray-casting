@@ -1,5 +1,3 @@
-const canvas_id = "canvas";
-//const canvas_size = [window.innerWidth, window.innerHeight];
 const canvas_size = [1000, 1000];
 
 
@@ -9,7 +7,9 @@ class CanvasDrawer{
         this.canvas.width = canvas_size[0];
         this.canvas.height = canvas_size[1];
         this.ctx = canvas.getContext("2d");
+        this.cursorPos = new Vec(0, 0);
         this.strokeEdges();
+        this.canvas.addEventListener("mousemove", (evt) => this.calcCursorPos(evt)); //This is dumb. ("mousemove", this.calcCursorPos) doesn't work since "this" in this.calcCursorPos refers to the canvas???
     }
 
     strokeEdges(){
@@ -17,27 +17,31 @@ class CanvasDrawer{
         this.ctx.lineWidth = 1;
         this.ctx.globalAlpha = 1;
         this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
-        this.update();
     }
 
-    line(p1, p2, width = 1, strokeStyle = "#000000", alpha = 1.0){
+    line(p1, p2, strokeStyle = "#000000", alpha = 1.0, width = 1){
         this.ctx.strokeStyle = strokeStyle;
-        this.ctx.lineWidth = Math.ceil(width);
         this.ctx.globalAlpha = alpha;
+        this.ctx.lineWidth = Math.ceil(width);
         this.ctx.moveTo(Math.floor(p1[0]), Math.floor(p1[1]));
         this.ctx.lineTo(Math.floor(p2[0]), Math.floor(p2[1]));
     }
 
+    calcCursorPos(event){
+        var rect = this.canvas.getBoundingClientRect();
+        this.cursorPos = new Vec(event.clientX - rect.left, event.clientY - rect.top);
+    }
+
+    clear(){
+        this.ctx.fillStyle = "#ffffff";
+        this.ctx.globalAlpha = 1;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.strokeEdges();
+    }
+
     update(){
-        this.ctx.stroke()
+        this.clear()
+        this.ctx.stroke();
+        this.ctx.fill();
     }
 };
-
-
-cd = new CanvasDrawer(document.getElementById(canvas_id));
-p1 = new Vec(50, 50);
-p2 = p1.scale(10);
-cd.line(p1, p2, 1);
-cd.update();
-
-
