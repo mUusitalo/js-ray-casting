@@ -1,4 +1,3 @@
-const canvas_size = [1000, 1000];
 
 
 class CanvasDrawer{
@@ -33,14 +32,12 @@ class CanvasDrawer{
     }
 
     clear(){
-        this.ctx.fillStyle = "#ffffff";
-        this.ctx.globalAlpha = 1;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.beginPath();
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.strokeEdges();
     }
 
-    update(){
-        this.clear()
+    refresh(){
         this.ctx.stroke();
         this.ctx.fill();
     }
