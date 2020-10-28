@@ -103,6 +103,5 @@ class Lamp{
             ray.pos = this.pos;
             ray.update();
         }
-
     }
 }

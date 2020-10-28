@@ -6,7 +6,7 @@ class CanvasDrawer{
         this.canvas.width = canvas_size[0];
         this.canvas.height = canvas_size[1];
         this.ctx = canvas.getContext("2d");
-        this.cursorPos = new Vec(0, 0);
+        this.cursorPos = new Vec(this.canvas.width / 2, this.canvas.height / 2);
         this.canvas.addEventListener("mousemove", (evt) => this.calcCursorPos(evt)); //This is dumb. ("mousemove", this.calcCursorPos) doesn't work since "this" in this.calcCursorPos refers to the canvas???
     }
 

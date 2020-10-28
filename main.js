@@ -3,7 +3,7 @@ const fps = 144;
 const nRays = 3000;
 const nWalls = 10;
 const wallMaxLen = 800;
-const canvas_size = [1920, 1080];
+const canvas_size = [1000, 1000];
 var mspf = 1000 / fps;
 
 
@@ -13,7 +13,7 @@ var cd = new CanvasDrawer(document.getElementById(canvas_id));
 
 class World{
     constructor(numOfRays = nRays, numOfWalls = nWalls, wallLen = wallMaxLen){
-        this.lamp = new Lamp(numOfRays, undefined, 0.2);
+        this.lamp = new Lamp(numOfRays, undefined, 0.1);
         this.nWalls = numOfWalls;
         this.wallMaxLen = wallLen;
         this.walls = [];
@@ -44,13 +44,17 @@ class World{
     }
 
     update(){
+        var thisLoop = new Date();
         cd.clear();
         for (let wall of this.walls){
-            wall.draw()
+            wall.draw();
         }
         cd.refresh()
         this.lamp.update();
         cd.refresh();
+        var fps = 1000 / (thisLoop - lastLoop);
+        lastLoop = thisLoop;
+        console.log(this.lamp.pos);
     }
 }
 
@@ -59,6 +63,7 @@ function main(){
 }
 
 world = new World();
+var lastLoop = new Date();
 main();
 
 
