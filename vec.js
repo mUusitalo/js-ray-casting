@@ -56,4 +56,18 @@ class Vec extends Array{
         //returns this rotated by 90°
         return new Vec(this[1], -this[0])
     }
+    
+    mrotate(matrix){
+        //return new vector that is rotated with given rotation matrix
+        return new Vec(this[0]*matrix[0][0] + this[1]*matrix[0][1],
+                       this[0]*matrix[1][0] + this[1]*matrix[1][1]);
+    }
+
+    static random(){
+        //returns random unit vector
+        let angle = Math.random() * 2 * Math.PI;
+        let x = Math.cos(angle);
+        let y = Math.sin(angle);
+        return new Vec(x, y);
+    }
 };
