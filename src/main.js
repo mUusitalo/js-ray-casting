@@ -1,18 +1,13 @@
-const canvas_id = "myCanvas";
-const fps = 144;
-const nRays = 3000;
-const nWalls = 10;
-const wallMaxLen = 800;
-const canvas_size = [1000, 1000];
-var mspf = 1000 / fps;
+const CANVAS_ID = "myCanvas";
+const N_RAYS = 1000;
+const N_WALLS = 10;
+const WALL_MAX_LEN = 800;
+const CANVAS_SIZE = [1000, 1000];
 
-
-var cd = new CanvasDrawer(document.getElementById(canvas_id));
-
-
+var cd = new CanvasDrawer(document.getElementById(CANVAS_ID));
 
 class World{
-    constructor(numOfRays = nRays, numOfWalls = nWalls, wallLen = wallMaxLen){
+    constructor(numOfRays = N_RAYS, numOfWalls = N_WALLS, wallLen = WALL_MAX_LEN){
         this.lamp = new Lamp(numOfRays, undefined, 0.1);
         this.nWalls = numOfWalls;
         this.wallMaxLen = wallLen;
@@ -52,19 +47,18 @@ class World{
         cd.refresh()
         this.lamp.update();
         cd.refresh();
-        var fps = 1000 / (thisLoop - lastLoop);
+        let fps = 1000 / (thisLoop - lastLoop);
+        console.log(fps);
         lastLoop = thisLoop;
-        console.log(this.lamp.pos);
+        window.requestAnimationFrame(() => this.update());
     }
 }
 
+
 function main(){
-    updateInterval = window.setInterval("world.update()", mspf);
+    window.requestAnimationFrame(() => world.update());
 }
 
 world = new World();
 var lastLoop = new Date();
 main();
-
-
-

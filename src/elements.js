@@ -2,32 +2,18 @@ function squareDistance(a, b){
     return Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
 }
 
-function findClosestPoint(point, pointList){
-    closest = pointList[0];
-    closestDist = squareDistance(point, pointList[0]);
-    for (i = 1; i < pointList.length; i++){
-        squareDist = squareDistance(point, pointList[i]);
-        if (squareDist < closestDist){
-            closest = pointList[i];
-            closestDist = squareDist;
-        } 
-    }
-    return closest;
-}
-
 class Wall{
     constructor(a, b, absorptivity = 1){
         this.a = a;
         this.b = b;
-        this.vec = this.b.sub(this.a);
         this.absorptivity = absorptivity;
+        this.vec = this.b.sub(this.a);
     }
 
     draw(){
         cd.line(this.a, this.b, "white", 1, 2);
     }
 };
-
 
 class Ray{
     constructor(pos, vec, intensity = 1){
@@ -43,30 +29,26 @@ class Ray{
 
     intersectWall(wall){
         /*
-        Returns Vec of point where ray intersects given wall or null if not.
+        Returns Vec of point where ray intersects given wall or null if it doesn't.
         TODO: Lots of optimization required. Bounding boxes, quadtrees, checking intersections first.
         */
         let v1 = this.pos.sub(wall.a);
-        let v3 = this.vec.normal();
-        let t2 = (v1.dot(v3) / wall.vec.dot(v3));
-        if (0 <= t2 && t2 <= 1){
-            let t1 = (wall.vec.cross(v1) / wall.vec.dot(v3));
-            if (t1 > 0){
-                return wall.a.add(wall.vec.scale(t2));
-            }
-        }
-        return null;
+        let norm = this.vec.normal();
+        let wallScale = (v1.dot(norm) / wall.vec.dot(norm));
+        if (wallScale < 0 || wallScale > 1) return; // Line defined by ray doesn't intersect wall
+        let rayScale = wall.vec.cross(v1) / wall.vec.dot(norm);
+        if (rayScale > 0) return wall.a.add(wall.vec.scale(wallScale));
+    }
+
+    findIntersections(walls){
+        return walls.map(wall => this.intersectWall(wall)).filter(Boolean);
     }
 
     findClosestIntersection(walls){
-        let intersections = [];
-        for (let wall of walls){
-            let intersection = this.intersectWall(wall);
-            if (intersection){
-                intersections.push(intersection);
-            }
-        }
-        this.intersection = findClosestPoint(this.pos, intersections);
+        let intersections = this.findIntersections(walls);
+        this.intersection = intersections.reduce((function(prev, curr){
+            return squareDistance(this.pos, prev) < squareDistance(this.pos, curr) ? prev : curr;
+        }).bind(this));
     }
 
     update(){
@@ -87,11 +69,11 @@ class Lamp{
 
     spawn_rays(){
         let rotAngle = (Math.PI * 2) / this.nRays;
-        let cosA = Math.cos(rotAngle);
-        let sinA = Math.sin(rotAngle);
-        let rotationMatrix = [[cosA, -sinA], [sinA, cosA]];
+        let x = Math.cos(rotAngle);
+        let y = Math.sin(rotAngle);
+        let rotationMatrix = [[x, -y], [y, x]];
         let currentVec = new Vec(0, 1);
-        for (let i = 0; i < this.nRays; i++){ //Creates all the new vectors by rotating currentVec with rotationMatrix
+        for (let i = 0; i < this.nRays; i++){ //Creates all of the new vectors by rotating currentVec with rotationMatrix
             this.rays.push(new Ray(this.pos, currentVec, this.brightness));
             currentVec = currentVec.mrotate(rotationMatrix);
         }

@@ -22,17 +22,17 @@ class Vec extends Array{
 
     add(other){
         //returns other vec added to this
-        return new Vec(this[0] + other[0], this[1] + other[1]);
+        return new Vec(this.x + other.x, this.y + other.y);
     }
 
     sub(other){
         //returns other vec substracted from this
-        return new Vec(this[0] - other[0], this[1] - other[1]);
+        return new Vec(this.x - other.x, this.y - other.y);
     }
     
     dot(other){
         //returns dot product of this and other vec
-        return this[0]*other[0] + this[1]*other[1];
+        return this.x*other.x + this.y*other.y;
     }
 
     angle(other){
@@ -42,12 +42,12 @@ class Vec extends Array{
 
     cross(other){
         //returns cross product of this and other vec
-        return this[0]*other[1] - this[1]*other[0];
+        return this.x*other.y - this.y*other.x;
     }
     
     scale(scalar){
         //returns this multiplied (scaled) by scalar
-        return new Vec(this[0] * scalar, this[1] * scalar);
+        return new Vec(this.x * scalar, this.y * scalar);
     }
 
     divide(scalar){
@@ -63,12 +63,12 @@ class Vec extends Array{
     unit(){
         //returns unit vector of this (vector with same direction but length 1)
         mag = this.mag();
-        return new Vec(this[0] / mag, this[1] / mag);
+        return new Vec(this.x / mag, this.y / mag);
     }
 
     normal(){
         //returns this rotated by 90°
-        return new Vec(this[1], -this[0])
+        return new Vec(this.y, -this.x)
     }
     
     mrotate(matrix){
