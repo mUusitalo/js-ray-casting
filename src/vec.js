@@ -2,8 +2,22 @@ class Vec extends Array{
     //2D vector class with basic math operations.
     constructor(x, y){
         super(x, y);
-        this.x = this[0]
-        this.y = this[1]
+    }
+
+    get x(){
+        return this[0];
+    }
+
+    set x(new_x){
+        this[0] = new_x;
+    }
+
+    get y(){
+        return this[1];
+    }
+
+    set y(new_y){
+        this[1] = new_y;
     }
 
     add(other){
