@@ -1,5 +1,5 @@
 const CANVAS_ID = "myCanvas";
-const N_RAYS = 400;
+const N_RAYS = 300;
 const N_WALLS = 10;
 const WALL_MAX_LEN = 800;
 const CANVAS_SIZE = [1000, 1000];
@@ -12,7 +12,7 @@ class World{
         this.nWalls = numOfWalls;
         this.wallMaxLen = wallLen;
         this.walls = [];
-        this.spawnWalls();
+        this.spawnWalls(); 
     }
 
     spawnEdgeWalls(){
@@ -41,12 +41,11 @@ class World{
     update(){
         var thisLoop = new Date();
         cd.clear();
+        cd.refresh()
         for (let wall of this.walls){
             wall.draw();
         }
-        cd.refresh()
         this.lamp.update();
-        cd.refresh();
         let fps = 1000 / (thisLoop - lastLoop);
         lastLoop = thisLoop;
         console.log(fps);
