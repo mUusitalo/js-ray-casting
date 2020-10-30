@@ -1,5 +1,5 @@
 const CANVAS_ID = "myCanvas";
-const N_RAYS = 1000;
+const N_RAYS = 400;
 const N_WALLS = 10;
 const WALL_MAX_LEN = 800;
 const CANVAS_SIZE = [1000, 1000];
@@ -8,7 +8,7 @@ var cd = new CanvasDrawer(document.getElementById(CANVAS_ID));
 
 class World{
     constructor(numOfRays = N_RAYS, numOfWalls = N_WALLS, wallLen = WALL_MAX_LEN){
-        this.lamp = new Lamp(numOfRays, undefined, 0.1);
+        this.lamp = new Lamp(numOfRays, undefined, 0.2);
         this.nWalls = numOfWalls;
         this.wallMaxLen = wallLen;
         this.walls = [];
@@ -16,9 +16,9 @@ class World{
     }
 
     spawnEdgeWalls(){
-        let topRight = new Vec(cd.canvas.width, 0);
-        let topLeft = new Vec(0, 0);
-        let bottomLeft = new Vec(0, cd.canvas.height);
+        let topRight = new Vec(cd.canvas.width, -1);
+        let topLeft = new Vec(-1, -1);
+        let bottomLeft = new Vec(-1, cd.canvas.height);
         let bottomRight = new Vec(cd.canvas.width, cd.canvas.height);
         let top = new Wall(topRight, topLeft);
         let left = new Wall(topLeft, bottomLeft);
@@ -48,8 +48,8 @@ class World{
         this.lamp.update();
         cd.refresh();
         let fps = 1000 / (thisLoop - lastLoop);
-        console.log(fps);
         lastLoop = thisLoop;
+        console.log(fps);
         window.requestAnimationFrame(() => this.update());
     }
 }
