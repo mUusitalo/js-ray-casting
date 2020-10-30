@@ -24,7 +24,7 @@ class Ray{
     }
 
     draw(){
-        cd.line(this.pos, this.intersection, "white", this.intensity, this.intensity);
+        cd.line(this.pos, this.intersection, "white", this.intensity);
     }
 
     intersectWall(wall){
