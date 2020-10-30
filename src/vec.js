@@ -62,7 +62,7 @@ class Vec extends Array{
 
     unit(){
         //returns unit vector of this (vector with same direction but length 1)
-        mag = this.mag();
+        let mag = this.mag();
         return new Vec(this.x / mag, this.y / mag);
     }
 
