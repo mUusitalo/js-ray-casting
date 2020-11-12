@@ -23,6 +23,14 @@ class CanvasDrawer{
         //this.ctx.stroke(); //This is needed to make opacities work but it's super slow.
     }
 
+    square(p1, size, fillStyle = "#FFFFFF", alpha = 1.0,){
+        this.ctx.beginPath();
+        this.ctx.fillStyle = fillStyle;
+        this.ctx.globalAlpha = alpha;
+        this.ctx.fillRect(p1[0] - (size / 2), p1[1] - (size / 2), size, size);
+        this.ctx.fill();
+    }
+
     calcCursorPos(event){
         var rect = this.canvas.getBoundingClientRect();
         this.cursorPos = new Vec(event.clientX - rect.left, event.clientY - rect.top);
@@ -37,7 +45,6 @@ class CanvasDrawer{
         this.ctx.globalAlpha = 1
         this.ctx.fillStyle = "#000000"
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        //this.ctx.stroke();
         this.ctx.fill();
     }
 };
