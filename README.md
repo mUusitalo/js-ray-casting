@@ -6,3 +6,7 @@ js-ray-casting runs in the browser and is tested to work on the latest versions 
 
 ### Running
 Open index.html in the browser of your choice.
+
+***
+
+![](ray-casting.gif)
